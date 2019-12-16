@@ -12,6 +12,8 @@ router.get('/', function(req, res, next) {
     })
     */
 });
+
+//test
 router.get('/:id/:gid', function(req, res, next) {
     Smodel
         .find({
