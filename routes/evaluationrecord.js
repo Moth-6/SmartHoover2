@@ -1,21 +1,25 @@
 var express = require('express');
 var router = express.Router();
-let Smodel = require('../models/salesman');
+let Smodel = require('../models/evaluationrecord');
 let mongoose = require('mongoose');
 let db = require('../src/database.js');
 
 
 router.get('/', function(req, res, next) {
-    res.send('HEY HEY ');
+    res.send('Evaluationrecords ');
     /*mangoose.connection.db.collection('salesmen').find().toArray((err,items)=>{
         res.send(items);
     })
     */
 });
-router.get('/:id', function(req, res, next) {
-     Smodel.find({id:req.params.id})
+router.get('/:id/:gid', function(req, res, next) {
+    Smodel
+        .find({
+            id:req.params.id,
+            gid:req.params.gid
+        })
         .then(doc => {
-            console.log(doc)
+            console.log(doc);
             res.send('this is '+ doc);
 
         })
@@ -31,10 +35,13 @@ router.post('/',function(req,res) {
     } else {
         let msg = new Smodel({
             id: req.body.id,
-            name: req.body.name,
-            age: req.body.age
-        })
-        msg.save()
+            gid: req.body.gid,
+            attribute: req.body.attribute,
+            targetValue: req.body.targetValue,
+            actualValue: req.body.actualValue,
+            bonus: req.body.bonus
+        });
+        msg.save();
 
 
         res.send('posted successfully  ');
@@ -44,22 +51,26 @@ router.put('/',function(req,res){
     //todo id not found
     Smodel.findOneAndUpdate(
         {
-            id:req.body.id
+            id:req.body.id,
+            gid:req.body.gid
         },
         {
-            name:req.body.name,
-            age: req.body.age
+            attribute:req.body.attribute,
+            targetValue: req.body.targetValue,
+            actualValue: req.body.actualValue,
+            bonus: req.body.bonus
+
         },
         {
             new: true,                       // return updated doc
             runValidators: true              // validate before update
         })
         .then(doc => {
-            console.log(doc)
+            console.log(doc);
             res.send('updated successfully')
         })
         .catch(err => {
-            console.error(err)
+            console.error(err);
             res.send('error')
         })
 
@@ -67,7 +78,8 @@ router.put('/',function(req,res){
 });
 router.delete('/',function(req,res){
     Smodel.findOneAndRemove({
-        id:req.body.id
+        id:req.body.id,
+        gid:req.body.gid
     })
         .then(response => {
             console.log(response);
