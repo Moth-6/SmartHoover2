@@ -3,14 +3,15 @@ var router = express.Router();
 let Smodel = require('../models/salesman');
 let mongoose = require('mongoose');
 let db = require('../src/database.js');
+mongoose.set('useFindAndModify', false);
 
 
 router.get('/', function(req, res, next) {
-    res.send('HEY HEY ');
-    /*mangoose.connection.db.collection('salesmen').find().toArray((err,items)=>{
+
+    mongoose.connection.db.collection('salesmen').find().toArray((err,items)=>{
         res.send(items);
     })
-    */
+
 });
 router.get('/:id', function(req, res, next) {
      Smodel.find({id:req.params.id})
@@ -34,10 +35,13 @@ router.post('/',function(req,res) {
             name: req.body.name,
             age: req.body.age
         })
-        msg.save()
+        msg.save().then((response,doc) => {
+            console.log(response);
+            res.send(doc);
+        });
 
 
-        res.send('posted successfully  ');
+        //res.send('posted successfully  ');
     }
 });
 router.put('/',function(req,res){
@@ -65,18 +69,31 @@ router.put('/',function(req,res){
 
 
 });
-router.delete('/',function(req,res){
+router.delete('/:id',function(req,res){
+    /*
+    if (!ObjectId.isValid(req.params.id))
+        return res.status(400).send(`No record with given id : ${req.params.id}`);
+
+    Smodel.findByIdAndRemove(req.params.id, (err, doc) => {
+        if (!err) { res.send(doc); }
+        else { console.log('Error in Employee Delete :' + JSON.stringify(err, undefined, 2)); }
+    });
+
+
+     */
     Smodel.findOneAndRemove({
-        id:req.body.id
+        id:req.params.id
     })
-        .then(response => {
+        .then((response,doc) => {
             console.log(response);
-            res.send('deleted successfully')
+            res.send(doc);
         })
-        .catch(err => {
+        .catch((err,doc) => {
             console.error(err);
-            res.send('error')
+            res.send(doc)
         })
+
+
 });
 
 module.exports = router;

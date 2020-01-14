@@ -1,0 +1,81 @@
+<div class="row">
+  <div class="col s12">
+    <div class="card">
+
+      <div class="card-content white-text">
+
+        <button class="btn-large waves-effect waves-light btn rounded" onclick="hideForm()">
+          <i class="material-icons">library_add</i>
+          new salesman
+        </button>
+
+        <div class="row">
+
+          <div id="form" style="display:none" class="col s5">
+        <form #salesmanForm="ngForm" (ngSubmit)="onSubmit(salesmanForm)">
+
+          <div class="row">
+            <div class="input-field col s12">
+              <input type="text" name="id" #name="ngModel" [(ngModel)]="salesmanService.selectedSalesman.id" placeholder="Please enter an identification number" required>
+              <label>Identification number:</label>
+            </div>
+          </div>
+          <div class="row">
+            <div class="input-field col s12">
+              <input type="text" name="name" #name="ngModel" [(ngModel)]="salesmanService.selectedSalesman.name" placeholder="Please enter full Name" required>
+              <label>Name:</label>
+            </div>
+          </div>
+          <div class="row">
+            <div class="input-field col s12">
+              <input type="text" name="age" #name="ngModel" [(ngModel)]="salesmanService.selectedSalesman.age" placeholder="Please enter the age" required>
+              <label>Age:</label>
+            </div>
+          </div>
+          <div class="row">
+            <div class="input-field col s12">
+              <button class="btn waves-effect waves-light right btn-large" type="submit" name="action" [disabled]="salesmanForm.invalid" >Submit
+                <i class="material-icons right">send</i>
+              </button>
+            </div>
+          </div>
+
+        </form></div>
+
+          <div class="col s7 black-text">
+            <h1>{{data.messageSource.value}}</h1>
+            <table class="responsive-table highlight collection">
+              <thead class="collection-header">
+              <tr>
+                <th>id</th>
+                <th>name</th>
+                <th>age</th>
+                <th></th>
+              </tr>
+              </thead>
+
+              <tbody>
+              <tr  *ngFor="let salesman of salesmanService.salesmen"  >
+
+                <td>{{salesman.id}}</td>
+                <td>{{salesman.name}}</td>
+                <td>{{salesman.age}}</td>
+
+
+                <td>
+
+                  <a class="action-btn" (click)="setSelectedId(salesman.id.toString())" ><i class="material-icons">launch</i></a>
+                  <a class="action-btn" (click)="onDelete(salesman.id,salesmanForm)"><i class="material-icons">delete</i></a>
+                </td>
+              </tr>
+              </tbody>
+
+            </table>
+
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div>

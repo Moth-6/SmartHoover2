@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<div class="col s7 black-text">
+  <h1>{{data.messageSource.value}}</h1>
+  <table class="responsive-table highlight collection">
+    <thead class="collection-header">
+    <tr>
+      <th>id</th>
+      <th>gid</th>
+      <th>attribute</th>
+      <th>target</th>
+      <th>actual</th>
+      <th>bonus</th>
+      <th></th>
+    </tr>
+    </thead>
+
+    <tbody>
+    <tr  *ngFor="let record of recordsService.recordsList" >
+
+      <td>{{record.id}}</td>
+      <td>{{record.gid}}</td>
+      <td>{{record.attribute}}</td>
+      <td>{{record.targetValue}}</td>
+      <td>{{record.actualValue}}</td>
+      <td>{{record.bonus}}</td>
+
+
+
+    </tr>
+    </tbody>
+
+  </table>
+</div>
+
+</body>
+</html>

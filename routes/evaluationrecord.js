@@ -6,11 +6,11 @@ let db = require('../src/database.js');
 
 
 router.get('/', function(req, res, next) {
-    res.send('Evaluationrecords ');
-    /*mangoose.connection.db.collection('salesmen').find().toArray((err,items)=>{
+
+    mongoose.connection.db.collection('evaluationrecords').find().toArray((err,items)=>{
         res.send(items);
     })
-    */
+
 });
 
 //test
@@ -22,7 +22,23 @@ router.get('/:id/:gid', function(req, res, next) {
         })
         .then(doc => {
             console.log(doc);
-            res.send('this is '+ doc);
+            res.send(doc);
+
+        })
+        .catch(err => {
+            console.error(err)
+        })
+
+
+});
+router.get('/:id', function(req, res, next) {
+    Smodel
+        .find({
+            id:req.params.id
+        })
+        .then(doc => {
+            console.log(doc);
+            res.send(doc);
 
         })
         .catch(err => {
