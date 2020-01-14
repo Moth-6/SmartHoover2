@@ -21,7 +21,7 @@ export class RecordsComponent implements OnInit {
 
   ngOnInit() {
     this.refreshRecordsList();
-    this.data.messageSource.subscribe(message => {
+    this.data.currentMessage.subscribe(message => {
       console.log("records receiving : " + message)
       this.message = message;
       this.refreshRecordsList();
@@ -31,6 +31,9 @@ export class RecordsComponent implements OnInit {
     this.recordsService.getRecordsList(this.data.messageSource.value).subscribe((res)=>{
       this.recordsService.recordsList = res as Records[];
     });
+  }
+  recordsChangeMessage(){
+    this.data.changeMessage("HELLO");
   }
 
 
