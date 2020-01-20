@@ -2,16 +2,16 @@
   <div class="col s12">
     <div class="card">
 
-      <div class="card-content white-text">
+      <div class="card-content white-text grey lighten-3">
 
-        <button class="btn-large waves-effect waves-light btn rounded" onclick="hideForm()">
+        <button class="btn-small waves-effect waves-light btn rounded" onclick="hideForm()">
           <i class="material-icons">library_add</i>
           new salesman
         </button>
 
         <div class="row">
 
-          <div id="form" style="display:none" class="col s5">
+          <div id="form" style="display:none" class="col s5 grey lighten-5">
         <form #salesmanForm="ngForm" (ngSubmit)="onSubmit(salesmanForm)">
 
           <div class="row">
@@ -28,13 +28,19 @@
           </div>
           <div class="row">
             <div class="input-field col s12">
-              <input type="text" name="age" #name="ngModel" [(ngModel)]="salesmanService.selectedSalesman.age" placeholder="Please enter the age" required>
-              <label>Age:</label>
+              <input type="text" name="department" #name="ngModel" [(ngModel)]="salesmanService.selectedSalesman.department" placeholder="Please enter the Department" required>
+              <label>Department:</label>
             </div>
           </div>
           <div class="row">
             <div class="input-field col s12">
-              <button class="btn waves-effect waves-light right btn-large" type="submit" name="action" [disabled]="salesmanForm.invalid" >Submit
+              <input type="text" name="yearOfPerformance" #name="ngModel" [(ngModel)]="salesmanService.selectedSalesman.yearOfPerformance" placeholder="Please enter the year of the performance" required>
+              <label>Year of performance:</label>
+            </div>
+          </div>
+          <div class="row">
+            <div class="input-field col s12">
+              <button class="btn waves-effect waves-light right btn-large" type="submit" name="action" [disabled]="salesmanForm.invalid" >Create
                 <i class="material-icons right">send</i>
               </button>
             </div>
@@ -43,29 +49,32 @@
         </form></div>
 
           <div class="col s7 black-text">
-            <h1>{{data.messageSource.value}}</h1>
-            <table class="responsive-table highlight collection">
+          <h5>List of Salesmen :</h5>
+            <table class="responsive-table highlight collection lime lighten-5">
               <thead class="collection-header">
               <tr>
-                <th>id</th>
-                <th>name</th>
-                <th>age</th>
+                <th>ID</th>
+                <th>Name</th>
+                <th>Department</th>
+                <th>YoP</th>
+
                 <th></th>
               </tr>
               </thead>
 
               <tbody>
-              <tr  *ngFor="let salesman of salesmanService.salesmen"  >
+              <tr  *ngFor="let salesman of salesmanService.salesmen" routerLink="/records/{{salesman.id}}" >
 
                 <td>{{salesman.id}}</td>
                 <td>{{salesman.name}}</td>
-                <td>{{salesman.age}}</td>
-
+                <td>{{salesman.department}}</td>
+                <td>{{salesman.yearOfPerformance}}</td>
 
                 <td>
 
-                  <a class="action-btn" (click)="setSelectedId(salesman.id.toString())" ><i class="material-icons">launch</i></a>
-                  <a class="action-btn" (click)="onDelete(salesman.id,salesmanForm)"><i class="material-icons">delete</i></a>
+                  <a class="action-btn" routerLink="/records/{{salesman.id}}" ><i class="material-icons">launch</i></a>
+                  <a class="action-btn" (click)="onEdit(salesmanForm,salesman.id)" ><i class="material-icons">edit</i></a>
+                  <a class="action-btn" (click)="onDelete(salesman.id,salesmanForm)"><i class="material-icons red-text">delete</i></a>
                 </td>
               </tr>
               </tbody>
@@ -77,5 +86,4 @@
       </div>
     </div>
   </div>
-
 </div>

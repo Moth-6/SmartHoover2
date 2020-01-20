@@ -24,6 +24,9 @@ export class SalesmanService {
   postSalesman(salesman :Salesman){
     return this.http.post(this.baseURL,salesman);
   }
+  editSalesman(salesman :Salesman,id){
+    return this.http.put(this.baseURL+"/"+id.toString(),salesman);
+  }
   getSalesmanList(){
     return this.http.get(this.baseURL);
   }

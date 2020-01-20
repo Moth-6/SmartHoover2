@@ -3,11 +3,24 @@
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
+
 </head>
-<body>
+<body class="column"  style="float: right;
+  width: 50%;">
+
+<div>
+  <h3>Bonus Computation Interface</h3>
+</div>
+<div class="col s5 card-panel teal lighten-5 blue-text text-darken-2">
+  <p>Name:  <strong>{{recordsService.salesman.name}}</strong></p>
+  <p>Employee ID: <strong>{{recordsService.salesman.id}}</strong></p>
+  <p>Department: <strong>{{recordsService.salesman.department}}</strong></p>
+  <p>Year of Performance: <strong>{{recordsService.salesman.yearOfPerformance}}</strong></p>
+</div>
+
+
 <div class="col s7 black-text">
-  <h1>{{data.messageSource.value}}</h1>
-  <a (click)="recordsChangeMessage()">test</a>
+
   <table class="responsive-table highlight collection">
     <thead class="collection-header">
     <tr>
@@ -29,15 +42,44 @@
       <td>{{record.attribute}}</td>
       <td>{{record.targetValue}}</td>
       <td>{{record.actualValue}}</td>
-      <td>{{record.bonus}}</td>
+      <td>{{record.bonus}} €</td>
 
+
+      <td>
+
+        <a class="action-btn" (click)="onEdit(recordForm,record.id,record.gid)" ><i class="material-icons">edit</i></a>
+        <a class="action-btn" (click)="onDelete(record.id,record.gid)"><i class="material-icons red-text">delete</i></a>
+      </td>
 
 
     </tr>
+
     </tbody>
 
   </table>
+  <hr>
+  <div class="col s5">
+    <form #recordForm="ngForm" (ngSubmit)="onSubmit(recordForm)">
+
+
+      <td><input class="column" type="text" name="attribute"  #name="ngModel" [(ngModel)]="recordsService.selectedRecord.attribute" placeholder="attribute" ></td>
+      <td><input class="column" type="text" name="targetValue"  #name="ngModel" [(ngModel)]="recordsService.selectedRecord.targetValue" placeholder="target value" ></td>
+      <td><input class="column" type="text" name="actualValue"  #name="ngModel" [(ngModel)]="recordsService.selectedRecord.actualValue" placeholder="actual value"></td>
+
+      <td>
+        <button class="btn" type="submit" [disabled]="recordForm.invalid" ><i class="material-icons">add</i></button>
+      </td>
+    </form>
+  </div>
 </div>
+
+<div>
+  <button class="btn right" (click)="approveHrmBonus()">Approve Bonus</button>
+  <p >Social Performance Bonus: <strong>{{recordsService.getTotalBonus()}}  €</strong></p>
+  <p >Approved Bonus: <strong>{{recordsService.bonus}}  €</strong></p>
+</div>
+
+
 
 </body>
 </html>

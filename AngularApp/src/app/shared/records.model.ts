@@ -4,5 +4,5 @@ export class Records {
   attribute: string;
   targetValue: number;
   actualValue: number;
-  bonus: number;
+  bonus: string;
 }

@@ -11,7 +11,8 @@ import { request } from 'http';
 import {RecordsService} from "../shared/records.service";
 import {RecordsComponent} from "../records/records.component";
 import {Records} from "../shared/records.model";
-import {DataService} from "../shared/data.service";
+import {DataService} from "../data.service";
+import { Router } from '@angular/router'
 
 declare var M : any;
 
@@ -25,7 +26,7 @@ declare var M : any;
 export class SalesmanComponent implements OnInit {
 
   message:string;
-  constructor(private salesmanService:SalesmanService,private data:DataService) { }
+  constructor(private salesmanService:SalesmanService,private data:DataService,private router: Router) { }
   selectedSalesman : number;
 
   ngOnInit() {
@@ -41,10 +42,10 @@ export class SalesmanComponent implements OnInit {
     if(form)
       form.reset();
     this.salesmanService.selectedSalesman={
-      _id:"",
       id:null,
       name:"",
-      age:null
+      department:"",
+      yearOfPerformance:null
     }
   }
   onSubmit(form:NgForm){
@@ -52,7 +53,14 @@ export class SalesmanComponent implements OnInit {
     this.salesmanService.postSalesman(form.value).subscribe((res) => {
       this.resetForm(form);
       this.refreshSalesmanList();
-      M.toast({html:'Submitted successfully.'});
+      M.toast({html:'Submitted successfully.',classes:'rounded light-green'});
+    });
+  }
+  onEdit(form:NgForm,id){
+    this.salesmanService.editSalesman(form.value,id).subscribe((res) => {
+      this.resetForm(form);
+      this.refreshSalesmanList();
+      M.toast({html:'Updated successfully.',classes:'rounded light-green'});
     });
   }
   refreshSalesmanList(){
@@ -66,7 +74,7 @@ export class SalesmanComponent implements OnInit {
       this.salesmanService.deleteSalesman(id).subscribe((res)=>{
         this.refreshSalesmanList();
         this.resetForm(form);
-        M.toast({html:'Deleted successfully',classes:'rounded'});
+        M.toast({html:'Deleted successfully',classes:'rounded light-green'});
 
       });
 
@@ -77,7 +85,9 @@ export class SalesmanComponent implements OnInit {
     this.message = id;
     this.data.changeMessage(this.message);
   }
-
+  onSelect(records){
+    this.router.navigate(['/records',records.id]);
+  }
 
 
 }

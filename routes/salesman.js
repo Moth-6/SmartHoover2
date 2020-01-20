@@ -14,17 +14,14 @@ router.get('/', function(req, res, next) {
 
 });
 router.get('/:id', function(req, res, next) {
-     Smodel.find({id:req.params.id})
+     Smodel.findOne({id:req.params.id})
         .then(doc => {
             console.log(doc)
-            res.send('this is '+ doc);
-
+            res.send(doc);
         })
         .catch(err => {
             console.error(err)
         })
-
-
 });
 router.post('/',function(req,res) {
     if ( Smodel.countDocuments({id: req.body.id})>=1) { /// TODO STILL DOESNT WORK
@@ -33,7 +30,8 @@ router.post('/',function(req,res) {
         let msg = new Smodel({
             id: req.body.id,
             name: req.body.name,
-            age: req.body.age
+            department: req.body.department,
+            yearOfPerformance:req.body.yearOfPerformance
         })
         msg.save().then((response,doc) => {
             console.log(response);
@@ -44,15 +42,16 @@ router.post('/',function(req,res) {
         //res.send('posted successfully  ');
     }
 });
-router.put('/',function(req,res){
+router.put('/:id',function(req,res){
     //todo id not found
     Smodel.findOneAndUpdate(
         {
-            id:req.body.id
+            id:req.params.id
         },
         {
             name:req.body.name,
-            age: req.body.age
+            department: req.body.department,
+            yearOfPerformance:req.body.yearOfPerformance
         },
         {
             new: true,                       // return updated doc
@@ -60,11 +59,11 @@ router.put('/',function(req,res){
         })
         .then(doc => {
             console.log(doc)
-            res.send('updated successfully')
+            res.send(doc)
         })
         .catch(err => {
             console.error(err)
-            res.send('error')
+            res.send(err)
         })
 
 

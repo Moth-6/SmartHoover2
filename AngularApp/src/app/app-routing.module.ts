@@ -3,7 +3,8 @@ import { Routes, RouterModule } from '@angular/router';
 import { RecordsComponent } from "./records/records.component";
 
 const routes: Routes = [
-  {path:'records',component:RecordsComponent}
+  //{path:'records',component:RecordsComponent},
+  { path: 'records/:id',component:RecordsComponent}
 ];
 
 @NgModule({
